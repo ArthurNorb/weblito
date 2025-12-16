@@ -1,46 +1,71 @@
-# Astro Starter Kit: Basics
+# 🚀 WebLito.tech | Arthur Norberto
 
-```sh
-npm create astro@latest -- --template basics
-```
+> Portfólio pessoal e hub de projetos desenvolvido com foco em alta performance e design moderno.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Este repositório contém o código-fonte da minha landing page pessoal. O projeto serve como um cartão de visitas digital e centralizador para meus contatos profissionais e futuros projetos de Engenharia de Software.
 
-## 🚀 Project Structure
+## 🛠️ Tecnologias Utilizadas
 
-Inside of your Astro project, you'll see the following folders and files:
+O projeto foi construído utilizando a arquitetura de **Ilhas** e **Geração de Site Estático (SSG)** para garantir a máxima velocidade de carregamento.
+
+* **[Astro](https://astro.build/):** Framework web para sites orientados a conteúdo e performance.
+* **[Tailwind CSS v4](https://tailwindcss.com/):** Framework de utilitários CSS (configurado com a nova engine v4 via Vite).
+* **JavaScript (ES6+):** Lógica de animação e interatividade leve.
+* **FontAwesome:** Ícones vetoriais.
+
+## ✨ Funcionalidades
+
+* 🎨 **Design Moderno:** Estilo "Glassmorphism" (efeito de vidro) e fundo animado com CSS puro.
+* 📱 **Totalmente Responsivo:** Adaptável para mobile, tablets e desktop.
+* ⚡ **Performance Extrema:** Zero JavaScript desnecessário enviado ao navegador (filosofia do Astro).
+* 🔗 **Links Sociais:** Integração direta com WhatsApp, LinkedIn, GitHub e E-mail.
+
+## 📂 Estrutura do Projeto
+
+A estrutura segue o padrão do Astro, organizada para escalabilidade:
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── public/          # Arquivos estáticos (favicon, robos.txt)
+├── src/
+│   ├── components/  # Componentes reutilizáveis (botões, cards)
+│   ├── layouts/     # Layout base (BaseLayout.astro)
+│   ├── pages/       # Rotas do site (index.astro)
+│   └── styles/      # CSS Global e importação do Tailwind
+└── astro.config.mjs # Configuração do Astro + Vite
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Como rodar localmente
+Pré-requisitos: Node.js instalado.
 
-## 🧞 Commands
+1- Clone o repositório:
 
-All commands are run from the root of the project, from a terminal:
+``` Bash
+git clone [https://github.com/ArthurNorb/weblito.git](https://github.com/ArthurNorb/weblito.git)
+cd weblito
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+2- Instale as dependências:
 
-## 👀 Want to learn more?
+```Bash
+npm install
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+3- Rode o servidor de desenvolvimento:
+
+```Bash
+npm run dev
+```
+
+O site estará disponível em http://localhost:4321.
+
+## 📦 Build e Deploy
+Para gerar os arquivos estáticos para produção (Hostinger, Vercel, etc):
+
+```Bash
+npm run build
+```
+
+Isso criará uma pasta dist/ com o HTML, CSS e JS otimizados. Basta fazer o upload do conteúdo desta pasta para o diretório public_html da sua hospedagem.
+
+Desenvolvido por Arthur Norberto.
