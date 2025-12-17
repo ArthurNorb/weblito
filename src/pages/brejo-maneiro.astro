@@ -1,0 +1,178 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+// Importando a logo e o componente de Imagem otimizado do Astro
+import { Image } from 'astro:assets';
+import logoSvg from '../assets/logo.svg';
+
+// === LÓGICA DO SERVIDOR (SSR) ===
+let supporters: string[] = [];
+try {
+  const dbPath = path.resolve(process.cwd(), 'brejo-db.json');
+  const data = await fs.readFile(dbPath, 'utf-8');
+  const json = JSON.parse(data);
+  supporters = Array.isArray(json.supporters) ? json.supporters : [];
+} catch (e) {
+  // Arquivo ainda não existe
+}
+---
+
+<Layout>
+  <main class="relative min-h-screen w-full overflow-hidden bg-neutral-950 text-white font-sans selection:bg-yellow-400 selection:text-black">
+    
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute -inset-[150%] animate-[spin_15s_linear_infinite] opacity-50 blur-3xl 
+                    bg-[conic-gradient(from_0deg_at_50%_50%,#ff0000_0deg,#ffff00_60deg,#00ff00_120deg,#00ffff_180deg,#0000ff_240deg,#ff00ff_300deg,#ff0000_360deg)]">
+        </div>
+    </div>
+
+    <a href="https://weblito.tech" target="_blank" rel="noopener noreferrer" 
+       class="absolute top-6 left-6 z-50 -rotate-3 hover:rotate-0 ">
+        <Image 
+            src={logoSvg} 
+            alt="Weblito Logo" 
+            class="w-24 md:w-32 opacity-40 hover:opacity-100 hover:scale-105 transition-all duration-500" 
+        />
+    </a>
+
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_400px] min-h-screen gap-8 p-6 lg:p-12 max-w-7xl mx-auto items-center pt-20 lg:pt-12">
+      
+      <div class="flex flex-col items-center justify-center gap-8 w-full">
+        <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter drop-shadow-[4px_4px_0_rgba(0,0,0,1)] text-center transform -rotate-2 leading-none">
+            Brejo é<br><span class="text-yellow-400">Maneiro</span>
+        </h1>
+
+        <div class="group relative bg-white p-4 pb-12 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-2 hover:rotate-0 transition-all duration-300 max-w-sm w-full">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-500 border-2 border-black z-20 shadow-sm"></div>
+            <img src="brejo.jpeg" alt="brejo maneiro" class="w-full h-auto border-2 border-black/10 grayscale group-hover:grayscale-0 transition-all duration-500">
+        </div>
+
+        <div class="w-full max-w-md bg-black/60 p-6 rounded-2xl backdrop-blur-md border border-white/20 shadow-2xl">
+            <form id="vote-form" class="flex flex-col gap-4">
+                <div class="flex flex-col gap-2">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="name-input" 
+                            maxlength="20"
+                            placeholder="DIGITE SEU NOME" 
+                            class="w-full bg-black/50 border-2 border-white/30 rounded-lg p-3 text-white placeholder-white/20 focus:outline-none focus:border-yellow-400 focus:bg-black/80 transition-all uppercase font-bold tracking-wide"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-brejo" class="group relative w-full py-4 bg-yellow-400 text-black font-black uppercase tracking-widest border-2 border-black shadow-[4px_4px_0px_0px_#000000] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#000000] hover:bg-yellow-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    Também acho o Brejo maneiro!
+                </button>
+            </form>
+            <p id="msg-status" class="text-center text-xs font-mono mt-3 text-white/50 h-4"></p>
+        </div>
+      </div>
+
+      <aside class="flex flex-col h-[500px] lg:h-[80vh] w-full">
+        <div class="flex flex-col h-full bg-black/40 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden shadow-2xl">
+            <div class="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
+                <h2 class="font-bold text-lg uppercase text-white tracking-wide">Lista VIP</h2>
+                <div class="bg-yellow-400 text-black text-xs font-black px-2 py-1 rounded border border-black">
+                    <span id="count-display">{supporters.length}</span> BREJOLOUCOS
+                </div>
+            </div>
+            
+            <ul id="supporters-list" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                {supporters.map((name) => (
+                    <li class="bg-neutral-900/80 p-3 rounded border-l-4 border-yellow-400 text-white font-bold tracking-wide shadow-sm flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        {name}
+                    </li>
+                ))}
+                {supporters.length === 0 && (
+                   <li id="empty-msg" class="text-center text-white/30 italic py-10">Lista vazia...</li>
+                )}
+            </ul>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #facc15; border-radius: 4px; border: 2px solid transparent; background-clip: padding-box;
+  }
+</style>
+
+<script>
+  const form = document.getElementById('vote-form') as HTMLFormElement;
+  const input = document.getElementById('name-input') as HTMLInputElement;
+  const btn = document.getElementById('btn-brejo') as HTMLButtonElement;
+  const list = document.getElementById('supporters-list');
+  const countDisplay = document.getElementById('count-display');
+  const msgStatus = document.getElementById('msg-status');
+  const emptyMsg = document.getElementById('empty-msg');
+  
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+    
+    const nameValue = input.value.trim();
+    if(!nameValue) return;
+
+    const originalBtnText = btn.innerText;
+    btn.innerText = "SALVANDO...";
+    btn.disabled = true;
+    input.disabled = true;
+
+    try {
+      const response = await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameValue })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        updateList(data.supporters);
+        input.value = ""; 
+        msgStatus.innerText = `"${nameValue}" adicionado!`;
+        msgStatus.classList.add('text-green-400');
+        
+        setTimeout(() => {
+            btn.disabled = false;
+            input.disabled = false;
+            btn.innerText = originalBtnText;
+            msgStatus.innerText = "";
+            input.focus();
+        }, 2000);
+
+      } else {
+        throw new Error(data.error || 'Erro desconhecido');
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert('Deu ruim na conexão. Tente de novo.');
+      btn.disabled = false;
+      input.disabled = false;
+      btn.innerText = originalBtnText;
+    }
+  });
+
+  function updateList(supporters) {
+    if(!list || !countDisplay) return;
+    countDisplay.innerText = supporters.length.toString();
+    if(emptyMsg) emptyMsg.remove();
+
+    list.innerHTML = supporters.map(name => `
+        <li class="bg-neutral-900/80 p-3 rounded border-l-4 border-yellow-400 text-white font-bold tracking-wide shadow-sm flex items-center gap-3 animate-[fade-in_0.5s_ease-out]">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            ${name}
+        </li>
+    `).join('');
+  }
+</script>
