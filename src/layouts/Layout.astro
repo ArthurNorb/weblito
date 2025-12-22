@@ -1,6 +1,11 @@
 ---
 import "../styles/global.css";
 import favicon from '../assets/favicon.svg';
+
+const { 
+    title = "WebLito.tech | Arthur Norberto", 
+    description = "Portfólio e contatos de Arthur Norberto." 
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -10,8 +15,8 @@ import favicon from '../assets/favicon.svg';
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href={favicon.src} />
 		<meta name="generator" content={Astro.generator} />
-        <meta name="description" content="Portfólio e contatos de Arthur Norberto.">
-		<title>WebLito.tech | Arthur Norberto</title>
+        <meta name="description" content={description}>
+		<title>{title}</title>
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	</head>

@@ -1,24 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-// Importando a logo e o componente de Imagem otimizado do Astro
+import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import logoSvg from '../assets/logo.svg';
-
-// === LÓGICA DO SERVIDOR (SSR) ===
-let supporters: string[] = [];
-try {
-  const dbPath = path.resolve(process.cwd(), 'brejo-db.json');
-  const data = await fs.readFile(dbPath, 'utf-8');
-  const json = JSON.parse(data);
-  supporters = Array.isArray(json.supporters) ? json.supporters : [];
-} catch (e) {
-  // Arquivo ainda não existe
-}
+import logoSvg from '../../assets/logo.svg';
+const supporters = [];
 ---
 
-<Layout>
+<Layout title="Brejo Maneiro" description="Entre e concorde que o Brejo é maneiro.">
   <main class="relative min-h-screen w-full overflow-hidden bg-neutral-950 text-white font-sans selection:bg-yellow-400 selection:text-black">
     
     <div class="fixed inset-0 z-0 pointer-events-none">
@@ -28,7 +15,7 @@ try {
     </div>
 
     <a href="https://weblito.tech" target="_blank" rel="noopener noreferrer" 
-       class="absolute top-6 left-6 z-50 -rotate-3 hover:rotate-0 ">
+       class="absolute top-6 left-6 z-50 -rotate-3 hover:rotate-0 transition-transform duration-300">
         <Image 
             src={logoSvg} 
             alt="Weblito Logo" 
@@ -45,7 +32,7 @@ try {
 
         <div class="group relative bg-white p-4 pb-12 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-2 hover:rotate-0 transition-all duration-300 max-w-sm w-full">
             <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-500 border-2 border-black z-20 shadow-sm"></div>
-            <img src="brejo.jpeg" alt="brejo maneiro" class="w-full h-auto border-2 border-black/10 grayscale group-hover:grayscale-0 transition-all duration-500">
+            <img src="/brejo.jpeg" alt="brejo maneiro" class="w-full h-auto border-2 border-black/10 grayscale group-hover:grayscale-0 transition-all duration-500">
         </div>
 
         <div class="w-full max-w-md bg-black/60 p-6 rounded-2xl backdrop-blur-md border border-white/20 shadow-2xl">
@@ -82,15 +69,16 @@ try {
             </div>
             
             <ul id="supporters-list" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                <li id="loading-msg" class="text-center text-white/50 animate-pulse py-10 font-mono text-sm">
+                    Buscando a galera...
+                </li>
+
                 {supporters.map((name) => (
                     <li class="bg-neutral-900/80 p-3 rounded border-l-4 border-yellow-400 text-white font-bold tracking-wide shadow-sm flex items-center gap-3">
                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                         {name}
                     </li>
                 ))}
-                {supporters.length === 0 && (
-                   <li id="empty-msg" class="text-center text-white/30 italic py-10">Lista vazia...</li>
-                )}
             </ul>
         </div>
       </aside>
@@ -108,14 +96,36 @@ try {
 </style>
 
 <script>
+  // URL da API PHP (caminho relativo)
+  const API_URL = import.meta.env.DEV 
+    ? 'http://localhost:8000/api.php' // Local (npm run dev + php -S)
+    : '/api.php';                    // Produção (Hostinger)
+
   const form = document.getElementById('vote-form') as HTMLFormElement;
   const input = document.getElementById('name-input') as HTMLInputElement;
   const btn = document.getElementById('btn-brejo') as HTMLButtonElement;
   const list = document.getElementById('supporters-list');
   const countDisplay = document.getElementById('count-display');
   const msgStatus = document.getElementById('msg-status');
-  const emptyMsg = document.getElementById('empty-msg');
+  const loadingMsg = document.getElementById('loading-msg');
+
+  // 1. CARREGAR LISTA AO ABRIR O SITE
+  async function loadInitialData() {
+    try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        if(data.supporters) {
+            updateList(data.supporters);
+        }
+    } catch (e) {
+        console.error("Erro ao carregar lista:", e);
+        if(loadingMsg) loadingMsg.innerText = "Erro ao carregar lista.";
+    }
+  }
   
+  loadInitialData();
+
+  // 2. ENVIAR VOTO
   form?.addEventListener('submit', async (e) => {
     e.preventDefault(); 
     
@@ -128,7 +138,7 @@ try {
     input.disabled = true;
 
     try {
-      const response = await fetch('/api/vote', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameValue })
@@ -149,11 +159,9 @@ try {
             msgStatus.innerText = "";
             input.focus();
         }, 2000);
-
       } else {
         throw new Error(data.error || 'Erro desconhecido');
       }
-
     } catch (error) {
       console.error(error);
       alert('Deu ruim na conexão. Tente de novo.');
@@ -166,7 +174,17 @@ try {
   function updateList(supporters) {
     if(!list || !countDisplay) return;
     countDisplay.innerText = supporters.length.toString();
-    if(emptyMsg) emptyMsg.remove();
+    
+    // Remove loading se existir
+    if(loadingMsg) loadingMsg.remove();
+    // Remove msg de vazio se existir
+    const empty = document.getElementById('empty-msg');
+    if(empty) empty.remove();
+
+    if (supporters.length === 0) {
+        list.innerHTML = `<li id="empty-msg" class="text-center text-white/30 italic py-10">Lista vazia...</li>`;
+        return;
+    }
 
     list.innerHTML = supporters.map(name => `
         <li class="bg-neutral-900/80 p-3 rounded border-l-4 border-yellow-400 text-white font-bold tracking-wide shadow-sm flex items-center gap-3 animate-[fade-in_0.5s_ease-out]">
