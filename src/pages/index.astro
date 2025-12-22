@@ -1,72 +1,270 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import logoWeblito from '../assets/logo.svg';
+import Layout from "../layouts/Layout.astro";
+import ContactModal from "../components/ContactModal.jsx";
+
+const projects = [
+  {
+    title: "Sorriso Conectado",
+    description:
+      "Aplicativo de gestão para redes de consultórios odontológicos em Ouro Preto e Mariana. Focado em agendamento e histórico de pacientes.",
+    tags: ["Laravel", "Filament", "MySQL"],
+    link: "#",
+    status: "Em desenvolvimento",
+  },
+  {
+    title: "Millennium Network",
+    description:
+      "Plataforma de gestão esportiva e chat oficial do projeto. Solução robusta para conectar atletas e administradores.",
+    tags: ["Laravel", "Livewire", "Real-time"],
+    link: "#",
+    status: "Freelance",
+  },
+  {
+    title: "Weblito Portfolio",
+    description:
+      "Este site! Um portfólio minimalista e performático desenvolvido com a arquitetura de ilhas.",
+    tags: ["Astro", "React", "Tailwind"],
+    link: "https://github.com/ArthurNorb",
+    status: "Concluído",
+  },
+];
+
+const experiences = [
+  {
+    company: "Freelancer (PJ)",
+    role: "Desenvolvedor Full Stack",
+    period: "Dez 2025 - Atualmente",
+    description:
+      "Desenvolvimento de soluções web customizadas para clientes locais, com foco no ecossistema PHP/Laravel.",
+  },
+  {
+    company: "Masterix",
+    role: "Estagiário em Desenvolvimento",
+    period: "2025",
+    description:
+      "Atuação no desenvolvimento e manutenção de sistemas, aprendizado prático de fluxos de trabalho ágeis e arquitetura de software.",
+  },
+];
+
+const labItems = [
+  {
+    title: "SeisPtoBola",
+    icon: "fa-guitar",
+    description:
+      "Rock n' roll diretamente de Ouro Preto. Música e criatividade também fazem parte do processo.",
+  },
+  {
+    title: "Mods Tracker 2008",
+    icon: "fa-car",
+    description:
+      "Documentação e manutenção mecânica/elétrica de um Chevrolet Tracker 2008 preparado para off-road.",
+  },
+];
 ---
 
-<Layout>
-    <main class="w-full max-w-md opacity-0 translate-y-5 transition-all duration-700 ease-out" id="main-container">
-        <div class="flex flex-col items-center justify-center mb-8 opacity-60 shadow">
-	        <img 
-	            src={logoWeblito.src} 
-	            alt="Logo WebLito" 
-	            class="max-w-xs drop-shadow-xl px-10" 
-	        />		
-		</div>
+<Layout title="Início">
+  <section
+    class="relative min-h-[90vh] flex flex-col justify-center items-start pt-20 pb-32"
+  >
+    <div
+      class="absolute top-0 right-0 -z-10 opacity-20 overflow-hidden pointer-events-none"
+    >
+      <div
+        class="w-[500px] h-[500px] bg-indigo-600 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/4"
+      >
+      </div>
+    </div>
 
-        <div class="glass-card rounded-2xl shadow-2xl p-8">
-            
-            <div class="text-center mb-8">
-                <span class="bg-blue-500/10 text-blue-400 text-xs font-medium px-3 py-1 rounded-full border border-blue-500/20">
-                    Em Breve
-                </span>
-                <p class="text-gray-300 mt-4 leading-relaxed">
-                    Meu portfólio está sendo construído. <br>
-                    Aqui você encontrará todos os meus projetos e experimentos.
-                </p>
+    <span class="font-mono text-indigo-400 mb-4 tracking-wider"
+      >Olá, meu nome é</span
+    >
+    <h1
+      class="text-5xl sm:text-7xl font-bold text-slate-100 mb-6 tracking-tight"
+    >
+      Arthur Norberto.
+    </h1>
+
+    <h2 class="text-4xl sm:text-6xl font-bold text-slate-400 mb-8">
+      Desenvolvo soluções digitais robustas.
+    </h2>
+
+    <p class="max-w-2xl text-lg text-slate-400 mb-12 leading-relaxed">
+      Sou um desenvolvedor Full Stack baseado em <span
+        class="text-slate-200 font-semibold">Ouro Preto, MG</span
+      >. Especialista em criar aplicações web escaláveis, unindo a segurança e
+      estrutura do
+      <span class="text-indigo-400 font-mono">Laravel</span> com a interatividade
+      moderna do
+      <span class="text-cyan-400 font-mono">React</span>.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a
+        href="#projetos"
+        class="px-8 py-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-1 text-center"
+      >
+        Ver Projetos
+      </a>
+      <a
+        href="#contatos"
+        class="px-8 py-4 border border-slate-700 text-slate-300 rounded-lg font-semibold hover:border-slate-500 hover:text-white transition-all hover:-translate-y-1 text-center"
+      >
+        Vamos conversar
+      </a>
+    </div>
+  </section>
+
+  <section id="projetos" class="py-24 scroll-mt-24">
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="text-3xl font-bold text-slate-100 flex items-center">
+        <span class="text-indigo-500 font-mono mr-2">01.</span> Projetos Reais
+      </h2>
+      <div class="h-[1px] bg-slate-800 flex-grow max-w-xs"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        projects.map((project) => (
+          <div class="group relative bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10">
+            <div class="flex justify-between items-start mb-4">
+              <i class="fa-regular fa-folder text-4xl text-indigo-500" />
+              <a
+                href={project.link}
+                target="_blank"
+                class="text-slate-400 hover:text-indigo-400"
+              >
+                <i class="fa-solid fa-arrow-up-right-from-square text-xl" />
+              </a>
+            </div>
+            <h3 class="text-xl font-bold text-slate-100 mb-2 group-hover:text-indigo-400 transition-colors">
+              {project.title}
+            </h3>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+              {project.description}
+            </p>
+            <div class="mt-auto">
+              <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-500">
+                {project.tags.map((tag) => (
+                  <span class="bg-slate-800 px-2 py-1 rounded">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="lab" class="py-24 scroll-mt-24">
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="text-3xl font-bold text-slate-100 flex items-center">
+        <span class="text-indigo-500 font-mono mr-2">02.</span> Lab & Hobbies
+      </h2>
+      <div class="h-[1px] bg-slate-800 flex-grow max-w-xs"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      {
+        labItems.map((item) => (
+          <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:bg-slate-800/50 transition duration-300">
+            <div class="mb-4 text-indigo-400">
+              <i class={`fa-solid ${item.icon} fa-2x`} />
+            </div>
+            <h3 class="text-lg font-bold text-slate-200 mb-2">{item.title}</h3>
+            <p class="text-slate-400 text-sm">{item.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="experiencia" class="py-24 scroll-mt-24">
+    <div class="flex items-center gap-4 mb-16">
+      <h2 class="text-3xl font-bold text-slate-100 flex items-center">
+        <span class="text-indigo-500 font-mono mr-2">03.</span> Experiência
+      </h2>
+      <div class="h-[1px] bg-slate-800 flex-grow max-w-xs"></div>
+    </div>
+
+    <div class="space-y-12">
+      {
+        experiences.map((xp) => (
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-0">
+            <div class="md:col-span-4 relative pl-8 md:pl-0 md:pr-12 md:text-right border-l border-slate-800 md:border-l-0 md:border-r md:border-slate-800">
+              <div
+                class="absolute top-1 w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)] 
+                                    left-[-5px] md:left-auto md:right-[-5px] z-10"
+              />
+
+              <span class="font-mono text-xs text-indigo-400 mb-1 block uppercase tracking-wider">
+                {xp.period}
+              </span>
+              <h3 class="text-xl font-bold text-slate-100">{xp.company}</h3>
             </div>
 
-            <div class="space-y-3">
-                
-                <a href="https://wa.me/5531971540035" target="_blank" rel="noopener noreferrer" 
-                   class="group flex items-center justify-center gap-3 w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-green-900/20 transition-all hover:-translate-y-1 hover:brightness-110">
-                    <i class="fab fa-whatsapp text-xl"></i>
-                    <span>WhatsApp</span>
-                </a>
-
-                <a href="https://www.linkedin.com/in/arthur-norberto/" target="_blank" rel="noopener noreferrer" 
-                   class="group flex items-center justify-center gap-3 w-full bg-[#0077b5] hover:bg-[#00669c] text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-1 hover:brightness-110">
-                    <i class="fab fa-linkedin-in text-xl"></i>
-                    <span>LinkedIn</span>
-                </a>
-
-                <a href="https://github.com/ArthurNorb" target="_blank" rel="noopener noreferrer" 
-                   class="group flex items-center justify-center gap-3 w-full bg-[#24292e] hover:bg-[#2f363d] text-white font-semibold py-3 px-4 rounded-xl border border-gray-600 shadow-lg transition-all hover:-translate-y-1 hover:brightness-110">
-                    <i class="fab fa-github text-xl"></i>
-                    <span>GitHub</span>
-                </a>
-
-                <a href="mailto:arthurnorberto4@gmail.com" 
-                   class="group flex items-center justify-center gap-3 w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-xl border border-gray-600 shadow-lg transition-all hover:-translate-y-1 hover:brightness-110">
-                    <i class="fas fa-envelope text-xl"></i>
-                    <span>Email</span>
-                </a>
-
+            <div class="md:col-span-8 pl-8 md:pl-12 pt-1">
+              <h4 class="text-lg font-semibold text-slate-200 mb-3">
+                {xp.role}
+              </h4>
+              <p class="text-slate-400 text-sm leading-relaxed max-w-2xl">
+                {xp.description}
+              </p>
             </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="formacao" class="py-24 scroll-mt-24">
+    <div class="flex items-center gap-4 mb-12">
+      <h2 class="text-3xl font-bold text-slate-100 flex items-center">
+        <span class="text-indigo-500 font-mono mr-2">04.</span> Formação Acadêmica
+      </h2>
+      <div class="h-[1px] bg-slate-800 flex-grow max-w-xs"></div>
+    </div>
+
+    <div
+      class="bg-gradient-to-r from-slate-900 to-slate-900/50 border border-slate-800 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6"
+    >
+      <div class="flex items-center gap-6">
+        <div class="bg-white/5 p-4 rounded-full">
+          <i class="fa-solid fa-graduation-cap text-3xl text-indigo-400"></i>
         </div>
+        <div>
+          <h3 class="text-2xl font-bold text-white">Ciência da Computação</h3>
+          <p class="text-slate-400">
+            Universidade Federal de Ouro Preto (UFOP)
+          </p>
+        </div>
+      </div>
+      <div class="text-right">
+        <span class="block text-sm text-slate-500 font-mono">Status</span>
+        <span
+          class="inline-block bg-green-500/10 text-green-400 text-xs px-3 py-1 rounded-full font-mono mt-1 border border-green-500/20"
+        >
+          Em curso
+        </span>
+      </div>
+    </div>
+  </section>
 
-        <footer class="text-center mt-8 text-gray-500 text-sm">
-			<p class="text-xs mt-1">Desenvolvido por Arthur Norberto &copy; {new Date().getFullYear()}</p>
-        </footer>
-    </main>
+  <section
+    id="contatos"
+    class="py-32 text-center max-w-2xl mx-auto scroll-mt-24"
+  >
+    <span class="font-mono text-indigo-400 mb-4 block"
+      >E aí, qual o próximo passo?</span
+    >
+    <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6">
+      Vamos trabalhar juntos?
+    </h2>
+    <p class="text-slate-400 text-lg mb-10">
+      Atualmente estou disponível para novos projetos freelance e oportunidades.
+      Se você tem uma ideia, uma demanda ou apenas quer dar um oi, minha caixa
+      de entrada está sempre aberta!
+    </p>
+
+    <ContactModal client:load />
+  </section>
 </Layout>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const mainContainer = document.getElementById('main-container');
-        if(mainContainer) {
-            setTimeout(() => {
-                mainContainer.classList.remove('opacity-0', 'translate-y-[20px]');
-            }, 100);
-        }
-    });
-</script>
