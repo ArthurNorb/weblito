@@ -1,4 +1,5 @@
 ---
+// src/pages/index.astro
 import Layout from "../layouts/Layout.astro";
 import ContactModal from "../components/ContactModal.jsx";
 
@@ -67,7 +68,7 @@ const labItems = [
     class="relative min-h-[90vh] flex flex-col justify-center items-start pt-20 pb-32"
   >
     <div
-      class="absolute top-0 right-0 -z-10 opacity-20 overflow-hidden pointer-events-none"
+      class="absolute top-0 right-0 -z-10 opacity-20 overflow-hidden pointer-events-none fade-in"
     >
       <div
         class="w-[500px] h-[500px] bg-indigo-600 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/4"
@@ -75,20 +76,24 @@ const labItems = [
       </div>
     </div>
 
-    <span class="font-mono text-indigo-400 mb-4 tracking-wider"
+    <span class="font-mono text-indigo-400 mb-4 tracking-wider fade-up"
       >Olá, meu nome é</span
     >
     <h1
-      class="text-5xl sm:text-7xl font-bold text-slate-100 mb-6 tracking-tight"
+      class="text-5xl sm:text-7xl font-bold text-slate-100 mb-6 tracking-tight fade-up delay-100"
     >
       Arthur Norberto.
     </h1>
 
-    <h2 class="text-4xl sm:text-6xl font-bold text-slate-400 mb-8">
+    <h2
+      class="text-4xl sm:text-6xl font-bold text-slate-400 mb-8 fade-up delay-200"
+    >
       Desenvolvo soluções digitais robustas.
     </h2>
 
-    <p class="max-w-2xl text-lg text-slate-400 mb-12 leading-relaxed">
+    <p
+      class="max-w-2xl text-lg text-slate-400 mb-12 leading-relaxed fade-up delay-300"
+    >
       Sou um desenvolvedor Full Stack baseado em <span
         class="text-slate-200 font-semibold">Ouro Preto, MG</span
       >. Especialista em criar aplicações web escaláveis, unindo a segurança e
@@ -98,7 +103,7 @@ const labItems = [
       <span class="text-cyan-400 font-mono">React</span>.
     </p>
 
-    <div class="flex flex-col sm:flex-row gap-4">
+    <div class="flex flex-col sm:flex-row gap-4 fade-up delay-300">
       <a
         href="#projetos"
         class="px-8 py-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-1 text-center"
@@ -115,7 +120,7 @@ const labItems = [
   </section>
 
   <section id="projetos" class="py-24 scroll-mt-24">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-12 fade-up">
       <h2 class="text-3xl font-bold text-slate-100 flex items-center">
         <span class="text-indigo-500 font-mono mr-2">01.</span> Projetos Reais
       </h2>
@@ -124,8 +129,12 @@ const labItems = [
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        projects.map((project) => (
-          <div class="group relative bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10">
+        projects.map((project, index) => (
+          // Usando o index para calcular o delay automaticamente (0ms, 100ms, 200ms...)
+          <div
+            class="group relative bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10 fade-up"
+            style={`transition-delay: ${index * 100}ms`}
+          >
             <div class="flex justify-between items-start mb-4">
               <i class="fa-regular fa-folder text-4xl text-indigo-500" />
               <a
@@ -156,7 +165,7 @@ const labItems = [
   </section>
 
   <section id="lab" class="py-24 scroll-mt-24">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-12 fade-up">
       <h2 class="text-3xl font-bold text-slate-100 flex items-center">
         <span class="text-indigo-500 font-mono mr-2">02.</span> Lab & Hobbies
       </h2>
@@ -165,8 +174,11 @@ const labItems = [
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       {
-        labItems.map((item) => (
-          <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:bg-slate-800/50 transition duration-300">
+        labItems.map((item, index) => (
+          <div
+            class="bg-slate-900 border border-slate-800 p-6 rounded-lg hover:bg-slate-800/50 transition duration-300 fade-up"
+            style={`transition-delay: ${index * 150}ms`}
+          >
             <div class="mb-4 text-indigo-400">
               <i class={`fa-solid ${item.icon} fa-2x`} />
             </div>
@@ -179,7 +191,7 @@ const labItems = [
   </section>
 
   <section id="experiencia" class="py-24 scroll-mt-24">
-    <div class="flex items-center gap-4 mb-16">
+    <div class="flex items-center gap-4 mb-16 fade-up">
       <h2 class="text-3xl font-bold text-slate-100 flex items-center">
         <span class="text-indigo-500 font-mono mr-2">03.</span> Experiência
       </h2>
@@ -188,8 +200,11 @@ const labItems = [
 
     <div class="space-y-12">
       {
-        experiences.map((xp) => (
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-0">
+        experiences.map((xp, index) => (
+          <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-0 fade-up"
+            style={`transition-delay: ${index * 200}ms`}
+          >
             <div class="md:col-span-4 relative pl-8 md:pl-0 md:pr-12 md:text-right border-l border-slate-800 md:border-l-0 md:border-r md:border-slate-800">
               <div
                 class="absolute top-1 w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)] 
@@ -217,7 +232,7 @@ const labItems = [
   </section>
 
   <section id="formacao" class="py-24 scroll-mt-24">
-    <div class="flex items-center gap-4 mb-12">
+    <div class="flex items-center gap-4 mb-12 fade-up">
       <h2 class="text-3xl font-bold text-slate-100 flex items-center">
         <span class="text-indigo-500 font-mono mr-2">04.</span> Formação Acadêmica
       </h2>
@@ -225,7 +240,7 @@ const labItems = [
     </div>
 
     <div
-      class="bg-gradient-to-r from-slate-900 to-slate-900/50 border border-slate-800 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6"
+      class="bg-gradient-to-r from-slate-900 to-slate-900/50 border border-slate-800 p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 fade-up"
     >
       <div class="flex items-center gap-6">
         <div class="bg-white/5 p-4 rounded-full">
@@ -251,7 +266,7 @@ const labItems = [
 
   <section
     id="contatos"
-    class="py-32 text-center max-w-2xl mx-auto scroll-mt-24"
+    class="py-32 text-center max-w-2xl mx-auto scroll-mt-24 fade-up"
   >
     <span class="font-mono text-indigo-400 mb-4 block"
       >E aí, qual o próximo passo?</span

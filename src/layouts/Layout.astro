@@ -1,36 +1,96 @@
 ---
-// src/layouts/Layout.astro
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.astro';
-import '@fontsource/jetbrains-mono'; 
-import '@fontsource/inter'; 
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.astro";
+import "@fontsource/jetbrains-mono";
+import "@fontsource/inter";
+import favicon from '../assets/favicon.svg';
 
 const { title } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="pt-BR" class="scroll-smooth">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Portfólio de Arthur Norberto - Desenvolvedor Full Stack" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-		<title>{title} | Weblito.tech</title>
-	</head>
-	<body class="bg-slate-950 text-slate-200 antialiased font-sans selection:bg-indigo-500 selection:text-white">
-		
-		<Navbar client:load />
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Portfólio de Arthur Norberto - Desenvolvedor Full Stack"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href={favicon.src} />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <title>{title} | Weblito.tech</title>
+  </head>
+  <body
+    class="bg-slate-950 text-slate-200 antialiased font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden"
+  >
+    <Navbar client:load />
 
-		<main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen">
-			<slot /> </main>
+    <main
+      class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-screen"
+    >
+      <slot />
+    </main>
 
-		<Footer />
-	</body>
+    <Footer />
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        const hiddenElements = document.querySelectorAll(".fade-up");
+        hiddenElements.forEach((el) => observer.observe(el));
+      });
+    </script>
+  </body>
 </html>
 
 <style is:global>
-	html {
-		background-color: #020617;
-	}
+  html {
+    background-color: #020617;
+  }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s cubic-bezier(0.17, 0.55, 0.55, 1);
+    will-change: opacity, transform;
+  }
+  .fade-up.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .delay-100 {
+    transition-delay: 100ms;
+  }
+  .delay-200 {
+    transition-delay: 200ms;
+  }
+  .delay-300 {
+    transition-delay: 300ms;
+  }
+  .delay-400 {
+    transition-delay: 400ms;
+  }
+  .delay-500 {
+    transition-delay: 500ms;
+  }
 </style>
