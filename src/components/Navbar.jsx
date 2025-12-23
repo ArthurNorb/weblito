@@ -17,7 +17,6 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-20">
 
-                    {/* LOGO */}
                     <a href="/" className="shrink-0 opacity-80 hover:opacity-100 transition-opacity">
                         <img
                             src="/WEBLITOTECH.png"
@@ -26,7 +25,6 @@ export default function Navbar() {
                         />
                     </a>
 
-                    {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-8">
                         {navLinks.map((link) => (
                             <a
@@ -39,7 +37,6 @@ export default function Navbar() {
                         ))}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -51,7 +48,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Dropdown */}
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-slate-900 border-b border-white/10">
                     <div className="px-4 pt-2 pb-6 space-y-2">
